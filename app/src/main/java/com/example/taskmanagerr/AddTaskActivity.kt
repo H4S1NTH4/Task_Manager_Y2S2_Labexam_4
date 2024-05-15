@@ -118,34 +118,58 @@ class AddTaskActivity : AppCompatActivity() {
             val timeString = timePickerButton.text.toString()
 
             // Check if both date and time are selected
-            if (dateString.isNotBlank() && timeString.isNotBlank()) {
-                val format = SimpleDateFormat("dd MMMM yyyy", Locale.US)
-                val utilDate = format.parse(dateString)
+            if (title.isNotBlank() && notes.isNotBlank() && dateString.isNotBlank() && timeString.isNotBlank()) {
+                try {
+                    val format = SimpleDateFormat("dd MMMM yyyy", Locale.US)
+                    val utilDate = format.parse(dateString)
 
-                val sqlDate = java.sql.Date(utilDate?.time ?: 0)
+                    if (utilDate != null) {
+                        val sqlDate = java.sql.Date(utilDate.time)
 
-                val timeParts = timeString.split(":")
-                val hour = timeParts[0].toInt()
-                val minute = timeParts[1].toInt()
-                val sqlTime = Time(hour, minute, 0)
+                        val timeParts = timeString.split(":")
 
+                        if (timeParts.size == 2) { // Ensure time is in HH:mm format
+                            val hour = timeParts[0].toIntOrNull()
+                            val minute = timeParts[1].toIntOrNull()
 
-                val task = Task(0, title, notes, 0, sqlDate, sqlTime)
+                            if (hour != null && minute != null && hour in 0..23 && minute in 0..59) { // Validate hour and minute
+                                val sqlTime = Time(hour, minute, 0)
 
-                // Inserting task into ViewModel
-                taskViewModel.insert(task)
+                                val task = Task(0, title, notes, 0, sqlDate, sqlTime)
 
-                // Showing success message
-                Toast.makeText(this, "Task added successfully", Toast.LENGTH_SHORT).show()
+                                // Inserting task into ViewModel
+                                taskViewModel.insert(task)
 
-                // Navigating back to main activity
-                backToMainActivity(this)
+                                // Showing success message
+                                Toast.makeText(this, "Task added successfully", Toast.LENGTH_SHORT)
+                                    .show()
+
+                                // Navigating back to main activity
+                                backToMainActivity(this)
+                            } else {
+                                // Handle invalid time format
+                                Toast.makeText(this, "please choose a Time", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        } else {
+                            // Handle invalid time format
+                            Toast.makeText(this, "please choose a Time", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        // Handle invalid date
+                        Toast.makeText(this, "Please choose a Date", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: ParseException) {
+                    // Handle parsing exception
+                    Toast.makeText(this, "Please choose a Date", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                // Show error message if date or time is not selected
-                Toast.makeText(this, "Please select both date and time", Toast.LENGTH_SHORT).show()
+                // Show error message
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+
+        }
 
         /**
      * Navigates back to the main activity.
