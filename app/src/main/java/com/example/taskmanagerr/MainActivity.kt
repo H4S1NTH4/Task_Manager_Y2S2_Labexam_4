@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+//import com.example.nexttodo.R
 import com.example.taskmanagerr.R
 import com.example.taskmanagerr.adapters.TaskAdapter
 import com.example.taskmanagerr.database.TaskDatabase
@@ -147,10 +148,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun changeCardColor(card: MaterialCardView) {
         // change the card background color of all cards
-        allCard.setCardBackgroundColor(resources.getColor(R.color.accent))
-        todayCard.setCardBackgroundColor(resources.getColor(R.color.accent))
-        overdueCard.setCardBackgroundColor(resources.getColor(R.color.accent))
-        completedCard.setCardBackgroundColor(resources.getColor(R.color.accent))
+        allCard.setCardBackgroundColor(resources.getColor(R.color.cards))
+        todayCard.setCardBackgroundColor(resources.getColor(R.color.cards))
+        overdueCard.setCardBackgroundColor(resources.getColor(R.color.cards))
+        completedCard.setCardBackgroundColor(resources.getColor(R.color.cards))
 
         // change the card background color
         card.setCardBackgroundColor(resources.getColor(R.color.white))
