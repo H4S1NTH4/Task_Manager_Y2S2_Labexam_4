@@ -186,3 +186,5 @@ class MainActivity : AppCompatActivity() {
         adapter.attachToRecyclerView(tasksList, filter)
     }
 }
+
+//test commit
